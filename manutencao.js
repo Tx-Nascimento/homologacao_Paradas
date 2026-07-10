@@ -113,3 +113,21 @@ function mostrarManutencaoAba(id) {
         ?.classList.remove("hidden");
 
 }
+async function carregarSolicitacoesManutencao(){
+
+    const lista =
+        document.getElementById("listaSolicitacoesManutencao");
+
+    lista.innerHTML =
+        "<p>Carregando...</p>";
+
+}
+async function carregarPainelManutencao(){
+
+    const lista =
+        document.getElementById("listaPainelManutencao");
+
+    lista.innerHTML =
+        "<p>Carregando...</p>";
+
+}
