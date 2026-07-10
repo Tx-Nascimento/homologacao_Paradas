@@ -171,53 +171,94 @@
       </div>
 <div id="manutencaoTela" class="card hidden">
 
-    <h3>Solicitação de Manutenção</h3>
+    <h3>Manutenção</h3>
 
     <button class="btn-secondary" onclick="voltarHome()">
         ← Voltar
     </button>
 
-    <select id="manTipo">
-        <option value="">Tipo da manutenção</option>
-        <option value="PREVENTIVA">Preventiva</option>
-        <option value="CORRETIVA">Corretiva</option>
-    </select>
+    <div class="tabs">
 
-    <select id="manMaquina">
-        <option value="">Selecione a máquina</option>
-    </select>
+        <button onclick="mostrarManutencaoAba('abaNovaManutencao')">
+            Nova solicitação
+        </button>
 
-    <select id="manEstado">
-        <option value="">Estado do equipamento</option>
-        <option value="PARADO">Parado</option>
-        <option value="FUNCIONAMENTO_NORMAL">Funcionamento normal</option>
-        <option value="FUNCIONAMENTO_REDUZIDO">Funcionamento reduzido</option>
-    </select>
+        <button onclick="mostrarManutencaoAba('abaSolicitacoesManutencao'); carregarSolicitacoesManutencao()">
+            Solicitações
+        </button>
 
-    <textarea
-        id="manProblema"
-        rows="4"
-        placeholder="Descreva o problema">
-    </textarea>
+        <button id="btnPainelManutencao"
+                class="hidden"
+                onclick="mostrarManutencaoAba('abaPainelManutencao'); carregarPainelManutencao()">
+            Painel da manutenção
+        </button>
 
-    <select id="manGravidade">
-        <option value="">Gravidade</option>
-        <option value="SEM_URGENCIA">Sem urgência</option>
-        <option value="MODERADO">Moderado</option>
-        <option value="URGENTE">Urgente</option>
-    </select>
+    </div>
 
-    <textarea
-        id="manImpacto"
-        rows="3"
-        placeholder="Qual o impacto?">
-    </textarea>
+    <div id="abaNovaManutencao">
 
-    <button onclick="solicitarManutencao()">
-        Solicitar manutenção
-    </button>
+        <select id="manTipo">
+            <option value="">Selecione o tipo de manutenção</option>
+            <option value="PREVENTIVA">Preventiva</option>
+            <option value="CORRETIVA">Corretiva</option>
+        </select>
 
-    <div id="manutencaoMsg"></div>
+        <select id="manSetor" onchange="filtrarMaquinasManutencao()">
+            <option value="">Selecione o setor</option>
+        </select>
+
+        <select id="manMaquina">
+            <option value="">Selecione a máquina</option>
+        </select>
+
+        <select id="manEstado">
+            <option value="">Selecione o estado do equipamento</option>
+            <option value="PARADO">Parado</option>
+            <option value="FUNCIONAMENTO_NORMAL">Funcionamento normal</option>
+            <option value="FUNCIONAMENTO_REDUZIDO">Funcionamento reduzido</option>
+        </select>
+
+        <select id="manGravidade">
+            <option value="">Selecione a gravidade</option>
+            <option value="SEM_URGENCIA">Sem urgência</option>
+            <option value="MODERADO">Moderado</option>
+            <option value="URGENTE">Urgente</option>
+        </select>
+
+        <select id="manImpacto">
+            <option value="">Selecione o impacto</option>
+            <option value="PRODUCAO">Produção</option>
+            <option value="QUALIDADE">Qualidade</option>
+            <option value="SEGURANCA">Segurança</option>
+            <option value="VELOCIDADE">Velocidade da linha</option>
+            <option value="RENDIMENTO">Rendimento</option>
+            <option value="SEM_IMPACTO">Sem impacto imediato</option>
+            <option value="OUTRO">Outro</option>
+        </select>
+
+        <textarea
+            id="manProblema"
+            rows="4"
+            placeholder="Descreva o problema">
+        </textarea>
+
+        <button onclick="solicitarManutencao()">
+            Solicitar manutenção
+        </button>
+
+        <div id="manutencaoMsg"></div>
+
+    </div>
+
+    <div id="abaSolicitacoesManutencao" class="hidden">
+        <h4 class="section-title">Solicitações</h4>
+        <div id="listaSolicitacoesManutencao"></div>
+    </div>
+
+    <div id="abaPainelManutencao" class="hidden">
+        <h4 class="section-title">Painel da manutenção</h4>
+        <div id="listaPainelManutencao"></div>
+    </div>
 
 </div>
       <div id="adminTela" class="card hidden">
