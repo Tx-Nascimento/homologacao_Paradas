@@ -131,3 +131,73 @@ async function carregarPainelManutencao(){
         "<p>Carregando...</p>";
 
 }
+async function carregarDadosManutencao() {
+    await carregarSetores();
+    await carregarMaquinasBase();
+
+    preencherSetoresManutencao();
+    preencherMaquinasManutencao([]);
+}
+
+function preencherSetoresManutencao() {
+    const select = document.getElementById("manSetor");
+
+    if (!select) {
+        return;
+    }
+
+    select.innerHTML =
+        '<option value="">Selecione o setor</option>';
+
+    setoresCache.forEach(setor => {
+        select.innerHTML += `
+            <option value="${setor.nome}">
+                ${setor.nome}
+            </option>
+        `;
+    });
+
+    if (!perfil.admin && !perfil.multi_setor) {
+        select.value = perfil.setor || "";
+        select.disabled = true;
+
+        filtrarMaquinasManutencao();
+    } else {
+        select.disabled = false;
+    }
+}
+
+function preencherMaquinasManutencao(maquinas) {
+    const select = document.getElementById("manMaquina");
+
+    if (!select) {
+        return;
+    }
+
+    select.innerHTML =
+        '<option value="">Selecione a máquina</option>';
+
+    maquinas.forEach(maquina => {
+        select.innerHTML += `
+            <option value="${maquina.id}">
+                ${maquina.nome}
+            </option>
+        `;
+    });
+}
+
+function filtrarMaquinasManutencao() {
+    const setor =
+        document.getElementById("manSetor").value;
+
+    if (!setor) {
+        preencherMaquinasManutencao([]);
+        return;
+    }
+
+    const maquinasFiltradas = maquinasCache.filter(
+        maquina => maquina.setor === setor
+    );
+
+    preencherMaquinasManutencao(maquinasFiltradas);
+}
