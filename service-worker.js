@@ -4,15 +4,16 @@ const ARQUIVOS_CACHE = [
   "/",
   "/index.html",
   "/manifest.json",
-  "/modelo.css",
-  "/js/utils.js",
-  "/js/offline.js",
-  "/js/auth.js",
-  "/js/paradas.js",
-  "/js/manutencao.js",
-  "/js/admin.js",
-  "/js/dashboard.js",
-  "/js/app.js"
+  "/modelo.css?v=4",
+  "/js/config.js?v=4",
+  "/js/utils.js?v=4",
+  "/js/offline.js?v=4",
+  "/js/auth.js?v=4",
+  "/js/paradas.js?v=4",
+  "/js/manutencao.js?v=4",
+  "/js/dashboard.js?v=4",
+  "/js/admin.js?v=4",
+  "/js/app.js?v=4"
 ];
 
 self.addEventListener("install", event => {
