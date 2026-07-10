@@ -11,175 +11,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Controle de Paradas</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #eef2f7;
-      margin: 0;
-      padding: 0;
-      color: #1f2937;
-    }
-
-    .container {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 18px;
-      margin-bottom: 16px;
-      box-shadow: 0 4px 18px rgba(0,0,0,.07);
-    }
-
-    h1, h2, h3, h4 {
-      margin-top: 0;
-    }
-
-    input, select, textarea, button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 8px;
-      margin-bottom: 12px;
-      border: 1px solid #d1d5db;
-      border-radius: 10px;
-      box-sizing: border-box;
-      font-size: 14px;
-    }
-
-    button {
-      background: #2563eb;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    button:hover { opacity: .95; }
-    button:disabled { opacity: .6; cursor: not-allowed; }
-    .btn-secondary { background: #6b7280; }
-    .btn-danger { background: #dc2626; }
-    .btn-success { background: #16a34a; }
-    .btn-warning { background: #d97706; }
-    .grid-1 { grid-template-columns: 1fr; }
-    .grid-2, .grid-3, .grid-4, .menu { display: grid; gap: 12px; }
-    .grid-2 { grid-template-columns: 1fr 1fr; }
-    .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
-    .grid-4 { grid-template-columns: repeat(4, 1fr); }
-    .menu { grid-template-columns: repeat(5, 1fr); }
-
-    .hidden { display: none; }
-    .item {
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 12px;
-      background: #f9fafb;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 4px 8px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: bold;
-    }
-
-    .aberta { background: #fef3c7; color: #92400e; }
-    .finalizada { background: #dcfce7; color: #166534; }
-    .pendente { background: #fee2e2; color: #991b1b; }
-
-    .erro { color: #dc2626; font-weight: bold; }
-    .ok { color: #16a34a; font-weight: bold; }
-    .small { font-size: 12px; color: #6b7280; }
-
-    .section-title {
-      margin: 22px 0 10px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      background: #fff;
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    th, td {
-      border: 1px solid #e5e7eb;
-      padding: 10px;
-      text-align: left;
-      font-size: 14px;
-      vertical-align: top;
-    }
-
-    th { background: #f3f4f6; }
-
-    label.inline-check {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 12px;
-      font-size: 14px;
-    }
-
-    label.inline-check input {
-      width: auto;
-      margin: 0;
-    }
-
-    .tabs {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .painel-offline {
-      border: 1px solid #fbbf24;
-      background: #fffbeb;
-      border-radius: 12px;
-      padding: 12px 14px;
-      margin-bottom: 12px;
-    }
-
-    .painel-offline.sem-pendencia {
-      border-color: #bbf7d0;
-      background: #f0fdf4;
-    }
-
-    .linha-pendencia {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 0;
-      border-bottom: 1px solid #fde68a;
-      font-size: 13px;
-    }
-
-    .linha-pendencia:last-child { border-bottom: none; }
-
-    .tag-tipo {
-      font-size: 11px;
-      font-weight: bold;
-      padding: 2px 6px;
-      border-radius: 6px;
-      background: #e0e7ff;
-      color: #3730a3;
-    }
-
-    @media (max-width: 900px) {
-      .grid-2, .grid-3, .grid-4, .menu, .tabs {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+<link rel="stylesheet" href="modelo.css">
 </head>
 <body>
   <div class="container">
@@ -193,25 +25,87 @@
     </div>
 
     <div id="appTela" class="hidden">
-      <div class="card">
-        <h2 id="saudacao">Olá</h2>
-        <div class="small" id="dadosUsuario"></div>
-        <div class="small" id="statusConexaoTopo" style="margin-top:8px;"></div>
-        <div id="avisoModoOffline" class="small hidden" style="margin-top:8px;"></div>
+    <h2 id="saudacao">Controle Industrial</h2>
 
-        <div class="menu" style="margin-top:12px;">
-          <button onclick="mostrarTela('novaParadaTela')">Nova parada</button>
-          <button onclick="mostrarTela('abertasTela'); carregarAbertas()">Em aberto</button>
-          <button onclick="mostrarTela('historicoTela'); carregarHistorico()">Histórico</button>
-          <button onclick="mostrarTela('dashboardTela'); carregarDashboard()">Dashboard</button>
-          <button id="btnAdmin" class="hidden" onclick="mostrarTela('adminTela'); carregarUsuariosAdmin()">Admin</button>
-        </div>
+    <div class="small" id="dadosUsuario"></div>
 
-        <button class="btn-secondary" onclick="logout()">Sair</button>
-      </div>
+    <div class="small"
+         id="statusConexaoTopo"
+         style="margin-top:8px;">
+    </div>
 
+    <div id="avisoModoOffline"
+         class="small hidden"
+         style="margin-top:8px;">
+    </div>
+
+</div>
+
+<div id="homeTela" class="card">
+
+
+<h2>Controle Industrial</h2>
+
+<div class="grid-2">
+
+    <button onclick="abrirModuloParadas()">
+        Controle de Paradas
+    </button>
+
+    <button
+        id="btnModuloManutencao"
+        class="hidden"
+        onclick="abrirModuloManutencao()">
+        Manutenção
+    </button>
+
+    <button
+        id="btnModuloAdmin"
+        class="hidden"
+        onclick="abrirModuloAdmin()">
+        Configurações
+    </button>
+
+</div>
+
+<button class="btn-secondary" onclick="logout()">
+    Sair
+</button>
+</div>
+<div id="menuParadasTela" class="card hidden">
+
+    <h3>Controle de Paradas</h3>
+
+    <button class="btn-secondary" onclick="voltarHome()">
+        ← Voltar
+    </button>
+
+    <div class="grid-2">
+
+        <button onclick="mostrarTela('novaParadaTela')">
+            Nova parada
+        </button>
+
+        <button onclick="mostrarTela('abertasTela'); carregarAbertas()">
+            Em aberto
+        </button>
+
+        <button onclick="mostrarTela('historicoTela'); carregarHistorico()">
+            Histórico
+        </button>
+
+        <button onclick="mostrarTela('dashboardTela'); carregarDashboard()">
+            Dashboard
+        </button>
+
+    </div>
+
+</div>
 <div id="novaParadaTela" class="card">
   <h3>Nova parada</h3>
+<button class="btn-secondary" onclick="voltarMenuParadas()">
+← Voltar
+</button>
 
   <div class="grid-2" id="linhaSetorData">
     <input type="date" id="dataParada" />
@@ -240,11 +134,18 @@
 </div>
 <div id="abertasTela" class="card hidden">
   <h3>Paradas em aberto</h3>
+<button class="btn-secondary" onclick="voltarMenuParadas()">
+← Voltar
+</button>
   <div id="painelPendenciasAbertas"></div>
   <div id="listaAbertas"></div>
 </div>
 <div id="historicoTela" class="card hidden">
-  <h3>Histórico</h3>
+<h3>Histórico</h3>
+
+<button class="btn-secondary" onclick="voltarMenuParadas()">
+← Voltar
+</button>
 
   <div class="grid-3">          <input type="date" id="filtroInicioHistorico" />
           <input type="date" id="filtroFimHistorico" />
@@ -255,6 +156,10 @@
 
       <div id="dashboardTela" class="card hidden">
         <h3>Dashboard</h3>
+
+<button class="btn-secondary" onclick="voltarMenuParadas()">
+← Voltar
+</button>
         <div class="grid-3">
           <input type="date" id="filtroInicioDash" />
           <input type="date" id="filtroFimDash" />
@@ -266,10 +171,62 @@
         <h4 class="section-title">Resumo por máquina</h4>
         <div id="tabelaMaquinas"></div>
       </div>
+<div id="manutencaoTela" class="card hidden">
 
+    <h3>Solicitação de Manutenção</h3>
+
+    <button class="btn-secondary" onclick="voltarHome()">
+        ← Voltar
+    </button>
+
+    <select id="manTipo">
+        <option value="">Tipo da manutenção</option>
+        <option value="PREVENTIVA">Preventiva</option>
+        <option value="CORRETIVA">Corretiva</option>
+    </select>
+
+    <select id="manMaquina">
+        <option value="">Selecione a máquina</option>
+    </select>
+
+    <select id="manEstado">
+        <option value="">Estado do equipamento</option>
+        <option value="PARADO">Parado</option>
+        <option value="FUNCIONAMENTO_NORMAL">Funcionamento normal</option>
+        <option value="FUNCIONAMENTO_REDUZIDO">Funcionamento reduzido</option>
+    </select>
+
+    <textarea
+        id="manProblema"
+        rows="4"
+        placeholder="Descreva o problema">
+    </textarea>
+
+    <select id="manGravidade">
+        <option value="">Gravidade</option>
+        <option value="SEM_URGENCIA">Sem urgência</option>
+        <option value="MODERADO">Moderado</option>
+        <option value="URGENTE">Urgente</option>
+    </select>
+
+    <textarea
+        id="manImpacto"
+        rows="3"
+        placeholder="Qual o impacto?">
+    </textarea>
+
+    <button onclick="solicitarManutencao()">
+        Solicitar manutenção
+    </button>
+
+    <div id="manutencaoMsg"></div>
+
+</div>
       <div id="adminTela" class="card hidden">
-        <h3>Administração</h3>
-
+        <h3>Configurações</h3>
+<button class="btn-secondary" onclick="voltarHome()">
+← Voltar
+</button>
         <div class="tabs">
           <button onclick="mostrarAdminAba('abaCriarUsuario')">Criar usuário</button>
           <button onclick="mostrarAdminAba('abaUsuarios')">Gerenciar usuários</button>
@@ -478,7 +435,7 @@ let modoOffline = false;
     function abrirAppComPerfil() {
       document.getElementById('loginTela').classList.add('hidden');
       document.getElementById('appTela').classList.remove('hidden');
-
+    mostrarTela('homeTela');
       salvarSessaoLocal();
 
       document.getElementById('saudacao').innerText = `Olá, ${perfil.nome}`;
@@ -498,14 +455,23 @@ let modoOffline = false;
       }
 
       document.getElementById('setor').value = perfil.setor || '';
+document.getElementById('btnModuloManutencao').classList.remove('hidden');
 
-      if (perfil.admin && !modoOffline) {
-        document.getElementById('btnAdmin').classList.remove('hidden');
+if (perfil.admin) {
+
+    document.getElementById('btnAdmin')?.classList.remove('hidden');
+    document.getElementById('btnModuloAdmin')?.classList.remove('hidden');
+
+    if (!modoOffline) {
         carregarSetoresAdmin();
-      } else {
-        document.getElementById('btnAdmin').classList.add('hidden');
-      }
+    }
 
+} else {
+
+    document.getElementById('btnAdmin')?.classList.add('hidden');
+    document.getElementById('btnModuloAdmin')?.classList.add('hidden');
+
+}
       configurarNovaParadaPorPerfil();
 
       if (!modoOffline) {
@@ -526,7 +492,87 @@ let modoOffline = false;
       }
     }
 
+async function solicitarManutencao() {
 
+    const tipo = document.getElementById("manTipo").value;
+    const maquina_id = document.getElementById("manMaquina").value;
+    const estado_equipamento = document.getElementById("manEstado").value;
+    const problema = document.getElementById("manProblema").value.trim();
+    const gravidade = document.getElementById("manGravidade").value;
+    const impacto = document.getElementById("manImpacto").value.trim();
+
+    const msg = document.getElementById("manutencaoMsg");
+
+    msg.innerHTML = "";
+
+    if (
+        !tipo ||
+        !maquina_id ||
+        !estado_equipamento ||
+        !problema ||
+        !gravidade
+    ){
+        msg.innerHTML = `<div class="erro">Preencha todos os campos obrigatórios.</div>`;
+        return;
+    }
+
+    try{
+
+        const { data: sessao } = await client.auth.getSession();
+
+        const token = sessao?.session?.access_token;
+
+        const resp = await fetch(
+            "https://mzawmvqrlrptidcwxkoi.supabase.co/functions/v1/solicitar-manutencao",
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json",
+                    "Authorization":`Bearer ${token}`,
+                    "apikey":SUPABASE_KEY
+                },
+                body:JSON.stringify({
+
+                    tipo,
+                    maquina_id,
+                    estado_equipamento,
+                    problema,
+                    gravidade,
+                    impacto,
+
+                    offline_id:crypto.randomUUID()
+
+                })
+            }
+        );
+
+        const json = await resp.json();
+
+        if(!resp.ok){
+
+            msg.innerHTML=`<div class="erro">${json.error}</div>`;
+            return;
+
+        }
+
+        msg.innerHTML=`<div class="ok">${json.message}</div>`;
+
+        document.getElementById("manTipo").value="";
+        document.getElementById("manMaquina").value="";
+        document.getElementById("manEstado").value="";
+        document.getElementById("manProblema").value="";
+        document.getElementById("manGravidade").value="";
+        document.getElementById("manImpacto").value="";
+
+    }
+
+    catch(e){
+
+        msg.innerHTML=`<div class="erro">${e.message}</div>`;
+
+    }
+
+}
     async function criarUsuario() {
       const nome = document.getElementById('novoNome').value.trim();
       const email = document.getElementById('novoEmail').value.trim();
@@ -1202,17 +1248,49 @@ async function finalizarParada(id, horaInicio) {
     }
 
     function mostrarTela(id) {
-      const telas = [
-        'novaParadaTela',
-        'abertasTela',
-        'historicoTela',
-        'dashboardTela',
-        'adminTela'
-      ];
-
+const telas = [
+    'homeTela',
+    'menuParadasTela',
+    'novaParadaTela',
+    'abertasTela',
+    'historicoTela',
+    'dashboardTela',
+    'manutencaoTela',
+    'adminTela'
+];
       telas.forEach(t => document.getElementById(t).classList.add('hidden'));
       document.getElementById(id).classList.remove('hidden');
     }
+function abrirModuloParadas() {
+    mostrarTela("menuParadasTela");
+}
+
+function abrirModuloManutencao() {
+
+    mostrarTela("manutencaoTela");
+
+}
+
+function abrirModuloAdmin() {
+
+    mostrarTela("adminTela");
+
+    if (!modoOffline) {
+        carregarUsuariosAdmin();
+        carregarSetoresAdmin();
+    }
+
+}
+function voltarHome(){
+
+    mostrarTela("homeTela");
+
+}
+function voltarMenuParadas(){
+
+    mostrarTela("menuParadasTela");
+
+}
 
     function mostrarAdminAba(id) {
       ['abaCriarUsuario', 'abaUsuarios', 'abaCadastros'].forEach(aba => {
@@ -1949,7 +2027,23 @@ function preencherMaquinas(maquinas) {
       </option>
     `;
   });
-}
+const manSelect = document.getElementById("manMaquina");
+
+if (manSelect) {
+
+    manSelect.innerHTML = '<option value="">Selecione a máquina</option>';
+
+    maquinas.forEach(m => {
+
+        manSelect.innerHTML += `
+            <option value="${m.id}">
+                ${m.nome}
+            </option>
+        `;
+
+    });
+
+}}
 async function carregarSetores() {
   if (!estaOnline() || modoOffline) {
     setoresCache = await buscarCacheConfig('setores') || [];
@@ -2109,5 +2203,15 @@ if ('serviceWorker' in navigator) {
  navigator.serviceWorker.register('/service-worker.js');
 }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/utils.js"></script>
+<script src="js/offline.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/paradas.js"></script>
+<script src="js/manutencao.js"></script>
+<script src="js/admin.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
