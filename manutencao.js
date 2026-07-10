@@ -94,3 +94,22 @@ function limparFormularioManutencao() {
     document.getElementById("manGravidade").value = "";
     document.getElementById("manImpacto").value = "";
 }
+function mostrarManutencaoAba(id) {
+
+    [
+        "abaNovaManutencao",
+        "abaSolicitacoesManutencao",
+        "abaPainelManutencao"
+    ].forEach(aba => {
+
+        document
+            .getElementById(aba)
+            ?.classList.add("hidden");
+
+    });
+
+    document
+        .getElementById(id)
+        ?.classList.remove("hidden");
+
+}
