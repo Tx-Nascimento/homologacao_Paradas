@@ -25,10 +25,11 @@ function abrirModuloParadas() {
 
 }
 
-function abrirModuloManutencao() {
-
+async function abrirModuloManutencao() {
     mostrarTela("manutencaoTela");
+    mostrarManutencaoAba("abaNovaManutencao");
 
+    await carregarDadosManutencao();
 }
 
 function abrirModuloAdmin() {
